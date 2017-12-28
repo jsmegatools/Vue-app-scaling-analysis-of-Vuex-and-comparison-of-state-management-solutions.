@@ -1,15 +1,5 @@
 <template>
   <div class="profiles-list-component">
-    <div class="check-later-container" v-if="added.length > 0">
-      <ul class="check-later">
-        <li class="profile-later" v-for="item in added" :key="item.id">
-          <router-link :to="`/profile/${item.id}`">
-            <img :src="`static/${item.photo}`"/>
-          </router-link>
-          {{ item.first_name }} {{ item.last_name }}
-        </li>
-      </ul>
-    </div>
     <div class="profiles-list-container">
       <ul class="profiles-list">
         <li class="profile" v-for="item in Profiles" :key="item.id">
@@ -40,13 +30,18 @@ export default {
   }),
   methods: {
     ...mapMutations([
-      'addToCheckLater'
-    ])
+      'addToCheckLater',
+      'removeFromCheckLater'
+    ]),
+    toggleSidebar () {
+      this.showSidebar = !this.showSidebar
+    }
   },
   data: function () {
     return {
       profilesMap: Profiles.reduce((memo, next) => ({ [next.id]: next, ...memo }), {}),
-      Profiles
+      Profiles,
+      showSidebar: true
     }
   }
 }
@@ -85,5 +80,13 @@ export default {
   }
   .profiles-list-container {
     overflow-y: scroll;
+  }
+  .menu-button {
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    z-index: 1;
+    position: absolute;
+    cursor: pointer;
   }
 </style>
