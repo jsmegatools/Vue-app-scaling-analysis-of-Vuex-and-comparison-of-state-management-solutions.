@@ -1,5 +1,6 @@
 <template>
   <div class="profiles-list-component">
+    <sidebar></sidebar>
     <div class="profiles-list-container">
       <ul class="profiles-list">
         <li class="profile" v-for="item in Profiles" :key="item.id">
@@ -16,32 +17,25 @@
 
 <script>
 import Profiles from '../mock_data.js'
+import Sidebar from './Sidebar'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'ProfilesList',
   computed: mapState({
-    added (state) {
-      return state.added.map(id => {
-        return this.profilesMap[id]
-      })
-    },
     addedMap: 'addedMap'
   }),
   methods: {
     ...mapMutations([
-      'addToCheckLater',
-      'removeFromCheckLater'
-    ]),
-    toggleSidebar () {
-      this.showSidebar = !this.showSidebar
-    }
+      'addToCheckLater'
+    ])
+  },
+  components: {
+    sidebar: Sidebar
   },
   data: function () {
     return {
-      profilesMap: Profiles.reduce((memo, next) => ({ [next.id]: next, ...memo }), {}),
-      Profiles,
-      showSidebar: true
+      Profiles
     }
   }
 }
@@ -67,26 +61,7 @@ export default {
     height: 200px;
     width: 200px;
   }
-  .check-later-container {
-    overflow-y: scroll;
-  }
-  .check-later {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-  }
-  .profile-later img {
-    width: 100%;
-  }
   .profiles-list-container {
     overflow-y: scroll;
-  }
-  .menu-button {
-    width: 50px;
-    height: 50px;
-    background-color: red;
-    z-index: 1;
-    position: absolute;
-    cursor: pointer;
   }
 </style>

@@ -12,8 +12,7 @@ export default new Vuex.Store({
     addToCheckLater (state, payload) {
       if (state.addedMap[payload]) return
       state.addedMap = { ...state.addedMap, [payload]: true }
-      state.added.unshift(payload)
-      // state.added = [ payload, ...state.added ]
+      state.added = [ payload, ...state.added ]
     },
     removeFromCheckLater (state, payload) {
       delete state.addedMap[payload]
