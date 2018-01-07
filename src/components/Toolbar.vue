@@ -1,12 +1,9 @@
 <template>
-  <div>
-    <div class="menu-button" v-if="added.length > 0" @click="toggleSidebar()"></div>
-    <div class="check-later-container" v-if="added.length && showSidebar">
-      <ul class="check-later">
+  <div class="check-later-toolbar">
+    <div class="check-later-button" @click="toggleDropdown()">
+      <div class="has-check-later" v-if="added.length"></div>
+      <ul class="check-later" v-if="added.length && showDropdown">
         <li class="profile-later" v-for="item in added" :key="item.id">
-          <router-link :to="`/profile/${item.id}`">
-            <img :src="`static/${item.photo}`"/>
-          </router-link>
           {{ item.first_name }} {{ item.last_name }}
           <button @click="removeFromCheckLater(item.id)">Don't check</button>
         </li>
@@ -20,7 +17,6 @@ import Profiles from '../mock_data'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
-  name: 'Sidebar',
   computed: mapState({
     added (state) {
       return state.added.map(id => {
@@ -32,37 +28,48 @@ export default {
     ...mapMutations([
       'removeFromCheckLater'
     ]),
-    toggleSidebar () {
-      this.showSidebar = !this.showSidebar
+    toggleDropdown () {
+      this.showDropdown = !this.showDropdown
     }
   },
   data: function () {
     return {
       profilesMap: Profiles.reduce((memo, next) => ({ [next.id]: next, ...memo }), {}),
-      showSidebar: true
+      showDropdown: false
     }
   }
 }
 </script>
 
 <style scoped>
-  .check-later-container {
-    overflow-y: scroll;
+  .check-later-toolbar {
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .check-later-button {
+    height: 50px;
+    width: 50px;
+    background: blue;
+    cursor: pointer;
+    position: relative;
   }
   .check-later {
+    position: absolute;
+    top: 100%;
+    background: white;
+    width: 200px;
     display: flex;
     flex-direction: column;
-    padding: 0;
+    right: 0;
+    border: 1px solid #aaa;
   }
-  .profile-later img {
-    width: 100%;
-  }
-  .menu-button {
-    width: 50px;
-    height: 50px;
-    background-color: red;
-    z-index: 1;
+  .has-check-later {
     position: absolute;
-    cursor: pointer;
+    background: red;
+    height: 25px;
+    width: 25px;
+    top: 0;
+    right: 0;
   }
 </style>
