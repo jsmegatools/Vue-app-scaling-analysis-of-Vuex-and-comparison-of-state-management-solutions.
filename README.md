@@ -1,4 +1,4 @@
-# tv_shows_reviews
+# Profile Checker
 
 > A Vue.js project
 
