@@ -1,12 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Profiles from './mock_data'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     added: [],
-    addedMap: {}
+    addedMap: {},
+    profilesMap: Profiles.reduce((memo, next) => ({ [next.id]: next, ...memo }), {})
+  },
+  getters: {
+    added (state) {
+      return state.added.map(id => {
+        return state.profilesMap[id]
+      })
+    }
   },
   mutations: {
     addToCheckLater (state, payload) {

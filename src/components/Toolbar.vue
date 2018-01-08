@@ -13,17 +13,14 @@
 </template>
 
 <script>
-import Profiles from '../mock_data'
-import { mapState, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
-  computed: mapState({
-    added (state) {
-      return state.added.map(id => {
-        return this.profilesMap[id]
-      })
+  computed: {
+    added () {
+      return this.$store.getters.added
     }
-  }),
+  },
   methods: {
     ...mapMutations([
       'removeFromCheckLater'
@@ -34,7 +31,6 @@ export default {
   },
   data: function () {
     return {
-      profilesMap: Profiles.reduce((memo, next) => ({ [next.id]: next, ...memo }), {}),
       showDropdown: false
     }
   }
